@@ -12,80 +12,79 @@
 #include <string>
 #include <vector>
 
-
 namespace plt = matplotlibcpp;
 // using Eigen::MatrixXd;
 class MapPoint {
-public:
-  MapPoint(double x, double y, double phi) : x(x), y(y), phi(phi){};
-  ~MapPoint() = default;
-  double x;
-  double y;
-  double phi;
+ public:
+    MapPoint(double x, double y, double phi) : x(x), y(y), phi(phi){};
+    ~MapPoint() = default;
+    double x;
+    double y;
+    double phi;
 };
 
 class OpenSpaceMap {
+ public:
+    OpenSpaceMap(/* args */);
+    ~OpenSpaceMap();
 
-public:
-  OpenSpaceMap(/* args */);
-  ~OpenSpaceMap();
+    void PlotAll();
 
-  void PlotAll();
+    void SetXYBounds(double x_min, double x_max, double y_min, double y_max);
+    void SetOnebstacle(std::vector<common::math::Vec2d> obstacles_vertices);
+    void SetSwellingObstacle(
+        std::vector<std::vector<common::math::Vec2d>> swelling_obstacles_vec);
+    void SetOptimizedTrajectory(
+        DiscretizedTrajectory optimized_trajectory);  // 轨迹点即可
+    void SetCoarseTrajectory(DiscretizedTrajectory coarse_trajectory);
+    void SetFrontDrivingBound(Eigen::MatrixXd f_bound);
+    void SetBackDrivingBound(Eigen::MatrixXd b_bound);
 
-  void SetXYBounds(double x_min, double x_max, double y_min, double y_max);
-  void SetOnebstacle(std::vector<common::math::Vec2d> obstacles_vertices);
-  void SetSwellingObstacle(
-      std::vector<std::vector<common::math::Vec2d>> swelling_obstacles_vec);
-  void SetOptimizedTrajectory(
-      DiscretizedTrajectory optimized_trajectory); //轨迹点即可
-  void SetCoarseTrajectory(DiscretizedTrajectory coarse_trajectory);
-  void SetFrontDrivingBound(Eigen::MatrixXd f_bound);
-  void SetBackDrivingBound(Eigen::MatrixXd b_bound);
+    const std::vector<std::vector<common::math::Vec2d>> obstacles_vertices_vec()
+        const;
+    const std::vector<std::vector<common::math::Vec2d>> swelling_obstacles_vec()
+        const;
 
-  const std::vector<std::vector<common::math::Vec2d>>
-  obstacles_vertices_vec() const;
-  const std::vector<std::vector<common::math::Vec2d>>
-  swelling_obstacles_vec() const;
+    const std::vector<double> XYbounds() const;
 
-  const std::vector<double> XYbounds() const;
+    void SwellingObstacles(const double &r);
 
-  void SwellingObstacles(const double &r);
+    void SwellingObstacle(
+        const std::vector<common::math::Vec2d> &obstacles_vertices,
+        const double &r,
+        std::vector<common::math::Vec2d> *swelling_obstacles_vertices);
 
-  void SwellingObstacle(
-      const std::vector<common::math::Vec2d> &obstacles_vertices,
-      const double &r,
-      std::vector<common::math::Vec2d> *swelling_obstacles_vertices);
+ private:
+    void PlotObstacles(const std::vector<std::vector<common::math::Vec2d>>
+                           &obstacles_vertices_vec_);
 
-private:
-  void PlotObstacles(const std::vector<std::vector<common::math::Vec2d>>
-                         &obstacles_vertices_vec_);
+    void PlotSwellingObstacles(
+        const std::vector<std::vector<common::math::Vec2d>>
+            &swelling_obstacles_vertices_vec_);
 
-  void PlotSwellingObstacles(const std::vector<std::vector<common::math::Vec2d>>
-                                 &swelling_obstacles_vertices_vec_);
+    void PlotTrajectory(const DiscretizedTrajectory &trajectory,
+                        const std::string &color);
 
-  void PlotTrajectory(const DiscretizedTrajectory &trajectory,
-                      const std::string &color);
+    void PlotDrivingBound(const Eigen::MatrixXd bound_);
 
-  void PlotDrivingBound(const Eigen::MatrixXd bound_);
+    void PlotTrajectoryV(const DiscretizedTrajectory &trajectory,
+                         const std::string &color);
 
-  void PlotTrajectoryV(const DiscretizedTrajectory &trajectory,
-                       const std::string &color);
+ private:
+    /* data */
+    // obstacles_vertices_vec_ in clock wise顺时针 order. Take different
+    // approach towards warm start and distance approach
+    std::vector<std::vector<common::math::Vec2d>> obstacles_vertices_vec_;
+    std::vector<std::vector<common::math::Vec2d>> swelling_obstacles_vec_;
 
-private:
-  /* data */
-  // obstacles_vertices_vec_ in clock wise顺时针 order. Take different
-  // approach towards warm start and distance approach
-  std::vector<std::vector<common::math::Vec2d>> obstacles_vertices_vec_;
-  std::vector<std::vector<common::math::Vec2d>> swelling_obstacles_vec_;
+    // x_min,x_max,y_min,y_max
+    std::vector<double> XYbounds_;
 
-  // x_min,x_max,y_min,y_max
-  std::vector<double> XYbounds_;
+    DiscretizedTrajectory optimized_trajectory_;
+    DiscretizedTrajectory coarse_trajectory_;
 
-  DiscretizedTrajectory optimized_trajectory_;
-  DiscretizedTrajectory coarse_trajectory_;
-
-  Eigen::MatrixXd f_bound_;
-  Eigen::MatrixXd b_bound_;
+    Eigen::MatrixXd f_bound_;
+    Eigen::MatrixXd b_bound_;
 };
 
 /*

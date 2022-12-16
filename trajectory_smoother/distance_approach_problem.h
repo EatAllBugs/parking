@@ -34,23 +34,29 @@
 #include "trajectory_smoother/distance_approach_ipopt_corridor_interface.h"
 
 class DistanceApproachProblem {
-public:
-  explicit DistanceApproachProblem(
-      const PlannerOpenSpaceConfig &planner_open_space_config);
+ public:
+    explicit DistanceApproachProblem(
+        const PlannerOpenSpaceConfig &planner_open_space_config);
 
-  virtual ~DistanceApproachProblem() = default;
-  //类的主函数
-  bool Solve(const Eigen::MatrixXd &x0, const Eigen::MatrixXd &xF,
-             const Eigen::MatrixXd &last_time_u, const size_t horizon,
-             const double ds_init, const Eigen::MatrixXd &ego,
-             const Eigen::MatrixXd &xWS, const Eigen::MatrixXd &uWS,
-             const std::vector<double> &XYbounds, const size_t obstacles_num,
-             const Eigen::MatrixXi &obstacles_edges_num,
-             const Eigen::MatrixXd &f_driving_bound,
-             const Eigen::MatrixXd &b_driving_bound,
-             Eigen::MatrixXd *state_result, Eigen::MatrixXd *control_result,
-             Eigen::MatrixXd *time_result);
+    virtual ~DistanceApproachProblem() = default;
+    //类的主函数
+    bool Solve(const Eigen::MatrixXd &x0,
+               const Eigen::MatrixXd &xF,
+               const Eigen::MatrixXd &last_time_u,
+               const size_t horizon,
+               const double ds_init,
+               const Eigen::MatrixXd &ego,
+               const Eigen::MatrixXd &xWS,
+               const Eigen::MatrixXd &uWS,
+               const std::vector<double> &XYbounds,
+               const size_t obstacles_num,
+               const Eigen::MatrixXi &obstacles_edges_num,
+               const Eigen::MatrixXd &f_driving_bound,
+               const Eigen::MatrixXd &b_driving_bound,
+               Eigen::MatrixXd *state_result,
+               Eigen::MatrixXd *control_result,
+               Eigen::MatrixXd *time_result);
 
-private:
-  PlannerOpenSpaceConfig planner_open_space_config_;
+ private:
+    PlannerOpenSpaceConfig planner_open_space_config_;
 };

@@ -6,6 +6,5 @@ OpenSpaceTrajectoryOptimizerConfig::~OpenSpaceTrajectoryOptimizerConfig(){};
 
 const PlannerOpenSpaceConfig
 OpenSpaceTrajectoryOptimizerConfig::planner_open_space_config() {
-
-  return planner_open_space_config_;
+    return planner_open_space_config_;
 }

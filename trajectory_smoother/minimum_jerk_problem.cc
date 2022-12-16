@@ -348,5 +348,4 @@ void MinimumJerkProblem::GetResult(
   //求合成速度和航向角
 }
 
-
 #endif
